@@ -28,6 +28,7 @@
 - [GUI](#gui)
 - [Driver Languages](#driver-languages)
 - [Methods](#methods)
+- [Diagram](#diagram)
 - [Contributors](#contributors)
 
 ## About
@@ -44,13 +45,13 @@
   <img src="https://user-images.githubusercontent.com/71296226/132046174-046be68a-e6ba-4783-a90b-28b182e50bf7.PNG" alt="alt text" width="500" height="500">
 </p>
 
-* **CONNECT** the VAEM to your PC using an Ethernet cable and click the scan button.
+* 🔌  **CONNECT** the VAEM to your PC using an Ethernet cable and click the scan button.
 (If the VAEM is found, press the connect button, else your gateway may have to be changed)
-* **CONTROL** the eight channels of the VAEM.
-* **ANALYZE** data including the nominal current versus time.
-* **STATUSWORD** displays the individual statusword bits and allows for basic read/write operations.
-* **SYSTEMINFO** provides firmware and product number information.
-* **ETHERNET** allows the user to change the host IP, port, and timeout.
+* 🕹️ **CONTROL** the eight channels of the VAEM.
+* 🔬  **ANALYZE** data including the nominal current versus time.
+* ❕ **STATUSWORD** displays the individual statusword bits and allows for basic read/write operations.
+* ℹ️  **SYSTEMINFO** provides firmware and product number information.
+* 📶  **ETHERNET** allows the user to change the host IP, port, and timeout.
 
 ## Driver Languages
 * <img src="https://icons.iconarchive.com/icons/papirus-team/papirus-apps/256/python-icon.png" alt="alt text" width="40" height="40">[  Python](/examples/python)
@@ -86,6 +87,9 @@
   * Value Ranges: NONE
   * Arguments:    void
   * Returns:      void
+
+## Diagram
+![festo_vaem_pic](https://user-images.githubusercontent.com/71296226/135151696-b2e39274-deb0-4d43-8371-ba793b44f638.PNG)
 
 ## Contributors
 |Name                 | Email                         | GitHub         |
