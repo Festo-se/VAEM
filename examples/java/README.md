@@ -5,8 +5,7 @@
 * Java 11.0.10
 
 ## Required Libraries
-* <img src="https://avatars.githubusercontent.com/u/2309355?s=88&v=4" alt="alt text" width="30" height="30">[ modbus4j v2.0.7](https://github.com/MangoAutomation/modbus4j)
-* <img src="http://rxtx.qbang.org/wiki/skins/common/images/wikii.png" alt="alt text" width="60" height="30">[ RXTXcomm v2.1.7](http://rxtx.qbang.org/wiki/index.php/Main_Page)
+* <img src="https://a.fsdn.com/allura/p/easymodbustcp/icon?1609423069?&w=90" alt="alt text" width="30" height="30">[ EasyModbusTCP v5.6.0](https://sourceforge.net/projects/easymodbustcp/#focus)
 
 ## VaemDriver Arguments
 * **String host** - host IP for tcp/ip (ex. 192.168.0.XXX)
