@@ -3,13 +3,14 @@
   <img src="https://user-images.githubusercontent.com/71296226/132049416-fc92dde2-d4fc-4d59-89e9-3aef004c9ee8.png" alt="alt text" width="200" height="30">
 </p>
 
-# **VAEM**
+# **VAEM** 8️⃣ 🎮
 ## **8-Channel Valve Controller**
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/71296226/135117973-92878832-2fb8-44da-8a9a-5b8161466005.png" alt="alt text" width="400" height="300">
 </p>
 
+![GitHub](https://img.shields.io/badge/Festo-Automation-0091dc/?style=for-the-badge&color=0091dc)
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/jhynes94/VAEM?include_prereleases)
 ![GitHub language count](https://img.shields.io/github/languages/count/jhynes94/VAEM)
 ![GitHub](https://img.shields.io/github/license/jhynes94/VAEM)
