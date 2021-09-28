@@ -5,7 +5,7 @@
 * Java 11.0.10
 
 ## Required Libraries
-* <img src="https://a.fsdn.com/allura/p/easymodbustcp/icon?1609423069?&w=90" alt="alt text" width="30" height="30">[ EasyModbusTCP v5.6.0](https://sourceforge.net/projects/easymodbustcp/#focus)
+* <img src="https://a.fsdn.com/allura/p/easymodbustcp/icon?1609423069?&w=90" alt="alt text" width="30" height="30">[ EasyModbusTCP v2.8](https://sourceforge.net/projects/easymodbustcp-udp-java/#focus)
 
 ## VaemDriver Arguments
 * **String host** - host IP for tcp/ip (ex. 192.168.0.XXX)
