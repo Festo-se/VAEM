@@ -10,12 +10,24 @@
   <img src="https://user-images.githubusercontent.com/71296226/135117973-92878832-2fb8-44da-8a9a-5b8161466005.png" alt="alt text" width="400" height="300">
 </p>
 
+![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/jhynes94/VAEM?include_prereleases)
+![GitHub language count](https://img.shields.io/github/languages/count/jhynes94/VAEM)
+![GitHub](https://img.shields.io/github/license/jhynes94/VAEM)
 
 * The [Festo](https://www.festo.com/us/en/?fwacid=9c792b0a20f1ab8d&gclid=Cj0KCQjwm9yJBhDTARIsABKIcGb7XGaLbJ-ljqb2bccWRPNZg1aE6mirUx0hWMCG82ycezodZ9I4ZTgaAqOYEALw_wcB) designed valve control module VAEM makes precise switching of solenoid valves easier than ever in any Festo systems or dispense applications.
 * Up to 8 channels can be parameterised individually.
 * A time resolution of only 0.2 ms and the control of the valves via current – not voltage – enable extremely high precision.
 * The holding current reduction saves energy and minimizes heat input.
 * Communication Protocol: [Modbus TCP/IP](https://en.wikipedia.org/wiki/Modbus#Modbus_TCP_frame_format_(primarily_used_on_Ethernet_networks)).
+
+## Table of Contents
+
+- [About](#about)
+- [Links](#links)
+- [GUI](#gui)
+- [Driver Languages](#driver-languages)
+- [Methods](#methods)
+- [Contributors](#contributors)
 
 ## About
 * This is an open software project which provides VAEM customers and users with a wide array of driver templates in different coding languages to allow for quick and easy adaptability of the Festo valve control module to any system, project, or environment. Listed below are the current languages provided along with the methods that each driver provides to the user.
