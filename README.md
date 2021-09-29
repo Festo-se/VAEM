@@ -15,7 +15,7 @@
 ![GitHub language count](https://img.shields.io/github/languages/count/jhynes94/VAEM)
 ![GitHub](https://img.shields.io/github/license/jhynes94/VAEM)
 
-* The [Festo](https://www.festo.com/us/en/?fwacid=9c792b0a20f1ab8d&gclid=Cj0KCQjwm9yJBhDTARIsABKIcGb7XGaLbJ-ljqb2bccWRPNZg1aE6mirUx0hWMCG82ycezodZ9I4ZTgaAqOYEALw_wcB) designed valve control module VAEM makes precise switching of solenoid valves easier than ever in any Festo systems or dispense applications.
+* The [Festo](https://www.festo.com/us/en/?fwacid=9c792b0a20f1ab8d&gclid=Cj0KCQjwm9yJBhDTARIsABKIcGb7XGaLbJ-ljqb2bccWRPNZg1aE6mirUx0hWMCG82ycezodZ9I4ZTgaAqOYEALw_wcB) designed valve control module ```VAEM``` makes precise switching of solenoid valves easier than ever in any ```Festo``` systems or dispense applications.
 * Up to 8 channels can be parameterised individually.
 * A time resolution of only 0.2 ms and the control of the valves via current – not voltage – enable extremely high precision.
 * The holding current reduction saves energy and minimizes heat input.
@@ -32,7 +32,7 @@
 - [Contributors](#contributors)
 
 ## About
-* This is an open software project which provides VAEM customers and users with a wide array of driver templates in different coding languages to allow for quick and easy adaptability of the Festo valve control module to any system, project, or environment. Listed below are the current languages provided along with the methods that each driver provides to the user.
+* This is an ```open software project``` which provides ```VAEM``` customers and users with a wide array of driver templates in different coding languages to allow for quick and easy adaptability of the ```Festo``` valve control module to any system, project, or environment. Listed below are the current languages provided along with the methods that each driver provides to the user.
 
 ## Links
 * [:shopping_cart::Product Page](https://www.festo.com/us/en/a/8088772/?q=VAEM~:festoSortOrderScored)
@@ -60,33 +60,33 @@
 
 ## Methods
 * **:toolbox: configureValves** -
-  * Purpose:      Configures the valve opening times of all eight channels, with 0 turning the channel off
-  * Value Ranges: openingTimes >= 0
-  * Arguments:    int[8] openingTimes (ms)
-  * Returns:      void
+  * ```Purpose:```      Configures the valve opening times of all eight channels, with 0 turning the channel off
+  * ```Value Ranges:``` openingTimes >= 0
+  * ```Arguments:```    int[8] openingTimes (ms)
+  * ```Returns:```      void
 
 * **💧: openValve** -
-  * Purpose:      Opens the valves connected to the initialized channels
-  * Value Ranges: NONE
-  * Arguments:    void
-  * Returns:      void
+  * ```Purpose:```      Opens the valves connected to the initialized channels
+  * ```Value Ranges:``` NONE
+  * ```Arguments:```    void
+  * ```Returns:```      void
 * **🚪: closeValve** -
-  * Purpose:      Closes the valves connected to the initialized channels
-  * Value Ranges: NONE
-  * Arguments:    void
-  * Returns:      void
+  * ```Purpose:```      Closes the valves connected to the initialized channels
+  * ```Value Ranges:``` NONE
+  * ```Arguments:```    void
+  * ```Returns:```      void
   
 * **:books: readStatus** -
-  * Purpose:      Read the VAEM status, error code, readiness, operating mode, and eight valve status bits (in order)
-  * Value Ranges: NONE
-  * Arguments:    void
-  * Returns:      void
+  * ```Purpose:```      Read the VAEM status, error code, readiness, operating mode, and eight valve status bits (in order)
+  * ```Value Ranges:``` NONE
+  * ```Arguments:```    void
+  * ```Returns:```      void
 
 * **:soap: clearError** -
-  * Purpose:      Clears (resets) the error bit on the VAEM
-  * Value Ranges: NONE
-  * Arguments:    void
-  * Returns:      void
+  * ```Purpose:```      Clears (resets) the error bit on the VAEM
+  * ```Value Ranges:``` NONE
+  * ```Arguments:```    void
+  * ```Returns:```      void
 
 ## Diagram
 ![festo_vaem_pic](https://user-images.githubusercontent.com/71296226/135151696-b2e39274-deb0-4d43-8371-ba793b44f638.PNG)
