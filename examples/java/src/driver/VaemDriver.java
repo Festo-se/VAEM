@@ -16,7 +16,7 @@ public class VaemDriver implements IVaemDriver {
     private final ModbusClient modbusClient;
 
     public VaemDriver(String host, int port) {
-        this.modbusClient = new ModbusClient("192.168.0.214",502);
+        this.modbusClient = new ModbusClient(host, port);
         //this.modbusClient.setConnectionTimeout(5000);
         this.modbusClient.setUnitIdentifier((byte)0);
 
