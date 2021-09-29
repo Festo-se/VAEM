@@ -1,5 +1,3 @@
-package driver;
-
 /* Author:     Raines, Jared
  * Copyright:  Copyright 2021, Festo Life Tech
  * Version:    0.0.1
@@ -7,6 +5,9 @@ package driver;
  * Email:      raines.j@northeastern.edu
  * Status:     Development
  */
+
+package driver;
+
 public interface IVaemDriver {
     void openValve();
     void closeValve();
