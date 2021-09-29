@@ -13,7 +13,7 @@
 
 ## Example Code
 ### 🚀 Start
-* Creates a new PGVA driver object (host IP, tcp/ip port)
+* Creates a new Vaem driver object (host IP, tcp/ip port)
 * Initializes and connects to the VAEM
 * Configures the 8 valve channels using the opening time values in "valveData"
 
