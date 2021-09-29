@@ -35,23 +35,23 @@
 * This is an ```open software project``` which provides ```VAEM``` customers and users with a wide array of driver templates in different coding languages to allow for quick and easy adaptability of the ```Festo``` valve control module to any system, project, or environment. Listed below are the current languages provided along with the methods that each driver provides to the user.
 
 ## Links
-* [:shopping_cart::Product Page](https://www.festo.com/us/en/a/8088772/?q=VAEM~:festoSortOrderScored)
-* [:receipt::Operating Instructions](https://www.festo.com/net/SupportPortal/Files/703842/VAEM-V-S8EPRS2_operating-instr_2020-09a_8144872g1.pdf)
-* [:old_key::Support Portal](https://www.festo.com/net/en-in_in/SupportPortal/default.aspx?tab=0&q=8088772)
-* [:desktop_computer::GUI](https://www.festo.com/net/en-in_in/SupportPortal/default.aspx?q=8088772&tab=4&s=t#result)
+### [:shopping_cart:: Product Page](https://www.festo.com/us/en/a/8088772/?q=VAEM~:festoSortOrderScored)
+### [:receipt:: Operating Instructions](https://www.festo.com/net/SupportPortal/Files/703842/VAEM-V-S8EPRS2_operating-instr_2020-09a_8144872g1.pdf)
+### [:old_key:: Support Portal](https://www.festo.com/net/en-in_in/SupportPortal/default.aspx?tab=0&q=8088772)
+### [:desktop_computer:: GUI](https://www.festo.com/net/en-in_in/SupportPortal/default.aspx?q=8088772&tab=4&s=t#result)
 
 ## GUI
 <p align="center">
   <img src="https://user-images.githubusercontent.com/71296226/132046174-046be68a-e6ba-4783-a90b-28b182e50bf7.PNG" alt="alt text" width="500" height="500">
 </p>
 
-* 🔌  **CONNECT** the VAEM to your PC using an Ethernet cable and click the scan button.
+* 🔌 **CONNECT** the VAEM to your PC using an Ethernet cable and click the scan button.
 (If the VAEM is found, press the connect button, else your gateway may have to be changed)
 * 🕹️ **CONTROL** the eight channels of the VAEM.
-* 🔬  **ANALYZE** data including the nominal current versus time.
-* ❕ **STATUSWORD** displays the individual statusword bits and allows for basic read/write operations.
-* ℹ️  **SYSTEMINFO** provides firmware and product number information.
-* 📶  **ETHERNET** allows the user to change the host IP, port, and timeout.
+* 🔬 **ANALYZE** data including the nominal current versus time.
+* ❕ ❕ **STATUSWORD** displays the individual statusword bits and allows for basic read/write operations.
+* ℹ️ **SYSTEMINFO** provides firmware and product number information.
+* 📶 **ETHERNET** allows the user to change the host IP, port, and timeout.
 
 ## Driver Languages
 * <img src="https://icons.iconarchive.com/icons/papirus-team/papirus-apps/256/python-icon.png" alt="alt text" width="40" height="40">[  Python](/examples/python)
