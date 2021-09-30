@@ -42,6 +42,14 @@
 
 ![image](https://user-images.githubusercontent.com/71296226/135158394-871868cf-e385-42ed-a0b2-8dfa10b7670a.png)
 
+## 🧑‍💻Interface
+- [x] configureValves(int[] openingTimes);
+- [X] openValve();
+- [x] closeValve();
+- [x] readStatus();
+- [x] clearError();
+- [ ] saveSettings();
+
 ## Author
 |Name          | Email                      | GitHub         |
 | ------------ | -------------------------  | -------------- |
