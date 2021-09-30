@@ -20,28 +20,28 @@
 * Initializes and connects to the ```VAEM```
 * Configures the 8 valve channels using the opening time values in ```valveData```
 
-![image](https://user-images.githubusercontent.com/71296226/135155686-feca88c9-1b54-4b6f-9cfd-cfbdbf575b6c.png)
+![image](https://user-images.githubusercontent.com/71296226/135522204-17297c57-e6da-474f-9676-2b2195920be6.png)
 
 ### ♾️ Loop
 * While loop that repeatedly opens and closes valve 1
 * Reads the status of the ```VAEM``` after opening the valve
 * Waits one second between opening and closing, vice versa
 
-![image](https://user-images.githubusercontent.com/71296226/135160108-3d8ed286-8047-4b7d-ae73-f30f310ecce7.png)
+![image](https://user-images.githubusercontent.com/71296226/135522117-61c7135a-435c-4d40-b5b9-21f2e25581b8.png)
 
 ### 🚧 Constructor
 * Creates a new ```Modbus Client``` with the given ```host IP address``` and ```port number```
 * Sets the clients ```slave ID``` to "0"
 * Attempts to connect to the client
 
-![image](https://user-images.githubusercontent.com/71296226/135158001-1dc6e290-e8ea-4abb-b021-644398d4ff40.png)
+![image](https://user-images.githubusercontent.com/71296226/135522768-0ec3d901-47f7-43ed-84c1-5a7cabdc2bca.png)
 
 ### ✔️ Initialization
 * Sets the operating mode of the device to 1 using a basic write operation
 * Reads back the current operating mode using a basic read operation
 * ```VAEM``` is fully initialized and connected
 
-![image](https://user-images.githubusercontent.com/71296226/135158394-871868cf-e385-42ed-a0b2-8dfa10b7670a.png)
+![image](https://user-images.githubusercontent.com/71296226/135523020-d68f2e8e-f1f4-42ff-bbb1-81ee7aca2fdc.png)
 
 ## Author
 |Name          | Email                      | GitHub         |
