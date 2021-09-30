@@ -47,9 +47,9 @@
 ![image](https://user-images.githubusercontent.com/71296226/135303699-c066e66c-01a1-43dc-a231-89893b727951.png)
 
 ## 🧑‍💻Interface
-- [x] configureValves(int[] openingTimes);
-- [X] openValve();
-- [x] closeValve();
+- [x] configureValves(valveOpeningTimes: dict);
+- [X] openValve(self);
+- [x] closeValve(self);
 - [ ] readStatus();
 - [ ] clearError();
 - [ ] saveSettings();
