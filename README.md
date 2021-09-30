@@ -88,6 +88,12 @@
   * ```Arguments:```    void
   * ```Returns:```      void
 
+* **:floppy_disk: saveSettings** -
+  * ```Purpose:```      Save the current valve configuration upon restart
+  * ```Value Ranges:``` NONE
+  * ```Arguments:```    void
+  * ```Returns:```      void
+
 ## Diagram
 ![festo_vaem_pic](https://user-images.githubusercontent.com/71296226/135151696-b2e39274-deb0-4d43-8371-ba793b44f638.PNG)
 
