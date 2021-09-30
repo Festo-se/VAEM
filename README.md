@@ -91,6 +91,14 @@
 ## Diagram
 ![festo_vaem_pic](https://user-images.githubusercontent.com/71296226/135151696-b2e39274-deb0-4d43-8371-ba793b44f638.PNG)
 
+## Current Version Capabilities
+- [x] Modbus TCP/IP over Ethernet
+- [ ] Serial Ascii over RS232
+- [x] Open all 8 valve channels
+- [x] Close all 8 valve channels
+- [x] Read the current device status
+- [x] Configure the valves/channels
+
 ## Contributors
 |Name                 | Email                         | GitHub         |
 | ------------        | -------------------------     | -------------- |
