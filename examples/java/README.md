@@ -36,8 +36,8 @@
 ![image](https://user-images.githubusercontent.com/71296226/135158001-1dc6e290-e8ea-4abb-b021-644398d4ff40.png)
 
 ### ✔️ Initialization
-* Sets the operating mode of the device to 1 using a basic write operation
-* Reads back the current operating mode using a basic read operation
+* Sets the operating mode of the device to 1 using a write operation
+* Reads back the current operating mode using a read operation
 * ```VAEM``` is fully initialized and connected
 
 ![image](https://user-images.githubusercontent.com/71296226/135158394-871868cf-e385-42ed-a0b2-8dfa10b7670a.png)
