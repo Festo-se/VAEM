@@ -30,6 +30,7 @@
 - [Methods](#methods)
 - [Diagram](#diagram)
 - [Contributors](#contributors)
+- [Capabilities](#current-version-capabilities)
 
 ## About
 * This is an ```open software project``` which provides ```VAEM``` customers and users with a wide array of driver templates in different coding languages to allow for quick and easy adaptability of the ```Festo``` valve control module to any system, project, or environment. Listed below are the current languages provided along with the methods that each driver provides to the user.
