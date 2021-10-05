@@ -43,7 +43,7 @@
 
 ## GUI
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/71296226/132046174-046be68a-e6ba-4783-a90b-28b182e50bf7.PNG" alt="alt text" width="500" height="500">
+  <img src="https://user-images.githubusercontent.com/71296226/136092356-8481541c-4a9f-4f75-a6a9-5d0b88f3e922.PNG" alt="alt text" width="800" height="700">
 </p>
 
 * 🔌 **CONNECT** the VAEM to your PC using an Ethernet cable and click the scan button.
