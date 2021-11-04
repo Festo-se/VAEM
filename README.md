@@ -37,7 +37,7 @@
 
 ## Links
 ### [:shopping_cart:: Product Page](https://www.festo.com/us/en/a/8088772/?q=VAEM~:festoSortOrderScored)
-### [:receipt:: Operating Instructions](https://www.festo.com/net/SupportPortal/Files/703842/VAEM-V-S8EPRS2_operating-instr_2020-09a_8144872g1.pdf)
+### [:receipt:: Operating Instructions](https://www.festo.com/net/SupportPortal/Files/716358/VAEM-V-S8EPRS2_operating-instr_2021-10a_8144872g1.pdf)
 ### [:old_key:: Support Portal](https://www.festo.com/net/en-in_in/SupportPortal/default.aspx?tab=0&q=8088772)
 ### [:desktop_computer:: GUI](https://www.festo.com/net/en-in_in/SupportPortal/default.aspx?q=8088772&tab=4&s=t#result)
 
