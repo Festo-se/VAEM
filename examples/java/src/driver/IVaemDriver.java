@@ -12,7 +12,7 @@ public interface IVaemDriver {
     void openValve();
     void closeValve();
     void configureValves(int[] openingTimes);
-    void readStatus();
+    int[] readStatus();
     void clearError();
     void saveSettings();
 

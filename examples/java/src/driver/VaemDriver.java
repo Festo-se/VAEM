@@ -104,7 +104,7 @@ public class VaemDriver implements IVaemDriver {
     }
 
     public int[] getStatus(int statusWord) {
-        int status = new int[12];
+        int[] status = new int[12];
         status[0] = statusWord & 0x01;
         status[1] = (statusWord & 0x08) >> 3;
         status[2] = (statusWord & 0x10) >> 4;
@@ -163,11 +163,11 @@ public class VaemDriver implements IVaemDriver {
        VaemValveIndex[] valves = VaemValveIndex.values();
        int selValves = 0;
        if (openingTimes.length > 8) {
-           throw new ArgumentException("Must configure 1-8 valves");
+           throw new IllegalArgumentException("Must configure 1-8 valves");
        }
        for(int t : openingTimes) {
            if (t < 0 || t > 2000) {
-               thrown new ArgumentException("Opening times must be between 0-2000");
+               throw new IllegalArgumentException("Opening times must be between 0-2000");
            }
        }
        try {
@@ -185,11 +185,11 @@ public class VaemDriver implements IVaemDriver {
        }
     }
 
-    public void readStatus() {
+    public int[] readStatus() {
         int[] status = getStatus(deconstructFrame(transfer(VaemAccess.Read.val,
                 VaemDataType.UINT16.val, VaemIndex.StatusWord.val, 0, 0))[5]);
         
-        return Arrays.copyOfRange(status, 5, status.length);
+        return status;
     }
 
     public void clearError() {
