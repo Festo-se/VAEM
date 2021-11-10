@@ -14,6 +14,7 @@ public interface IVaemDriver {
     void configureValves(int[] openingTimes);
     void readStatus();
     void clearError();
+    void saveSettings();
 
 
     enum VaemAccess {
