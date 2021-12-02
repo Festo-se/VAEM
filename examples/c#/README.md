@@ -46,12 +46,13 @@
 ![image](https://user-images.githubusercontent.com/71296226/135523020-d68f2e8e-f1f4-42ff-bbb1-81ee7aca2fdc.png)
 
 ## 🧑‍💻Interface
-- [ ] configureValves(int[] openingTimes);
-- (configureVaem() selects all valves instead)
+- [x] selectValve(int valveId);
+- [x] deselectValve(int valveId);
+- [x] setOpeningTime(int valveId, int openingTime);
 - [X] openValve();
 - [x] closeValve();
 - [x] readStatus();
-- [ ] clearError();
+- [x] clearError();
 - [x] saveSettings();
 
 
