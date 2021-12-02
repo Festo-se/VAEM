@@ -17,16 +17,16 @@
 ### 🚀 Start
 * Creates a new ```Vaem``` driver object (```host IP```, ```tcp/ip port```)
 * Initializes and connects to the ```VAEM```
-* Configures the 8 valve channels using the opening time values in ```valveData```
+* Selects valve 1 and sets the opening time to 500 ms
 
-![image](https://user-images.githubusercontent.com/71296226/135155686-feca88c9-1b54-4b6f-9cfd-cfbdbf575b6c.png)
+![image](https://user-images.githubusercontent.com/71296226/144478597-3c35978b-2b56-4604-b7a2-b24c9d6df31f.png)
 
 ### ♾️ Loop
 * While loop that repeatedly opens and closes valve 1
-* Reads the status of the ```VAEM``` after opening the valve
+* Reads the status of the ```VAEM``` before and after opening the valve
 * Waits one second between opening and closing, vice versa
 
-![image](https://user-images.githubusercontent.com/71296226/135160108-3d8ed286-8047-4b7d-ae73-f30f310ecce7.png)
+![image](https://user-images.githubusercontent.com/71296226/144478658-ee81f0c7-8856-492a-997d-73b3eee712b3.png)
 
 ### 🚧 Constructor
 * Creates a new ```Modbus Client``` with the given ```host IP address``` and ```port number```
@@ -43,12 +43,14 @@
 ![image](https://user-images.githubusercontent.com/71296226/135158394-871868cf-e385-42ed-a0b2-8dfa10b7670a.png)
 
 ## 🧑‍💻Interface
-- [x] configureValves(int[] openingTimes);
+- [x] selectValve(int valve_id);
+- [x] deselectValve(int valve_id);
+- [x] setOpeningTime(int valve_id, int opening_time);
 - [X] openValve();
 - [x] closeValve();
 - [x] readStatus();
 - [x] clearError();
-- [ ] saveSettings();
+- [x] saveSettings();
 
 ## Author
 |Name          | Email                      | GitHub         |
