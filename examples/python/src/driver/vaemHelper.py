@@ -9,15 +9,14 @@ __status__ = "Development"
 
 from enum import IntEnum
 
-
 valveSettings = {
-    'NominalVoltage' : 24000,
-    'ResponseTime' : 500,
-    'TimeDelay' : 0,
-    'PickUpTime' : 125,
-    'InrushCurrent' : 300,
-    'HitNHold' : 100,
-    'HoldingCurrent' : 100
+    'NominalVoltage': 24000,
+    'ResponseTime': 500,
+    'TimeDelay': 0,
+    'PickUpTime': 125,
+    'InrushCurrent': 300,
+    'HitNHold': 100,
+    'HoldingCurrent': 100
 }
 
 vaemValveIndex = {
@@ -29,7 +28,7 @@ vaemValveIndex = {
     6: 0x20,
     7: 0x40,
     8: 0x80,
-    "AllValves" : 255
+    "AllValves": 255
 }
 
 
@@ -103,7 +102,7 @@ def getStatus(statusWord):
     return status
 
 
-def getValveSetting(param, valve, **settings):
+def getValveSetting(param, valve, transfer):
     out = {}
     if param == VaemIndex.NominalVoltage:
         out['access'] = VaemAccess.Write.value
@@ -111,49 +110,49 @@ def getValveSetting(param, valve, **settings):
         out['paramIndex'] = VaemIndex.NominalVoltage.value
         out['paramSubIndex'] = valve
         out['errorRet'] = 0
-        out['transferValue'] = settings['NominalVoltage']
+        out['transferValue'] = transfer
     elif param == VaemIndex.ResponseTime:
         out['access'] = VaemAccess.Write.value
         out['dataType'] = VaemDataType.UINT32.value
         out['paramIndex'] = VaemIndex.ResponseTime.value
         out['paramSubIndex'] = valve
         out['errorRet'] = 0
-        out['transferValue'] = settings['ResponseTime']
+        out['transferValue'] = transfer
     elif param == VaemIndex.InrushCurrent:
         out['access'] = VaemAccess.Write.value
         out['dataType'] = VaemDataType.UINT32.value
         out['paramIndex'] = VaemIndex.InrushCurrent.value
         out['paramSubIndex'] = valve
         out['errorRet'] = 0
-        out['transferValue'] = settings['InrushCurrent']
+        out['transferValue'] = transfer
     elif param == VaemIndex.HoldingCurrent:
         out['access'] = VaemAccess.Write.value
         out['dataType'] = VaemDataType.UINT16.value
         out['paramIndex'] = VaemIndex.HoldingCurrent.value
         out['paramSubIndex'] = valve
         out['errorRet'] = 0
-        out['transferValue'] = settings['HoldingCurrent']
+        out['transferValue'] = transfer
     elif param == VaemIndex.PickUpTime:
         out['access'] = VaemAccess.Write.value
         out['dataType'] = VaemDataType.UINT16.value
         out['paramIndex'] = VaemIndex.PickUpTime.value
         out['paramSubIndex'] = valve
         out['errorRet'] = 0
-        out['transferValue'] = settings['PickUpTime']
+        out['transferValue'] = transfer
     elif param == VaemIndex.TimeDelay:
         out['access'] = VaemAccess.Write.value
         out['dataType'] = VaemDataType.UINT32.value
         out['paramIndex'] = VaemIndex.TimeDelay.value
         out['paramSubIndex'] = valve
         out['errorRet'] = 0
-        out['transferValue'] = settings['TimeDelay']
+        out['transferValue'] = transfer
     elif param == VaemIndex.HitNHold:
         out['access'] = VaemAccess.Write.value
         out['dataType'] = VaemDataType.UINT32.value
         out['paramIndex'] = VaemIndex.HitNHold.value
         out['paramSubIndex'] = valve
         out['errorRet'] = 0
-        out['transferValue'] = settings['HitNHold']
+        out['transferValue'] = transfer
     elif param == VaemIndex.SelectValve:
         out['access'] = VaemAccess.Write.value
         out['dataType'] = VaemDataType.UINT8.value
@@ -164,3 +163,5 @@ def getValveSetting(param, valve, **settings):
     else:
         print('Invalid input param')
     return out
+
+

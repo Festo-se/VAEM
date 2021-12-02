@@ -20,7 +20,7 @@
 * Initializes and connects to the ```VAEM```
 * Configures the 8 valve channels and saves these device settings
 
-![image](https://user-images.githubusercontent.com/71296226/135522204-17297c57-e6da-474f-9676-2b2195920be6.png)
+![image]()
 
 ### ♾️ Loop
 * While loop that repeatedly opens and closes all valves

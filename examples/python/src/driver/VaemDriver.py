@@ -6,32 +6,35 @@ __version__ = "0.0.1"
 __maintainer__ = "Kolev, Milen"
 __email__ = "milen.kolev@festo.com"
 __status__ = "Development"
+
 import logging
 from pymodbus.client.sync import ModbusTcpClient as TcpClient
 import struct
-from time import sleep
-
-from config.data_types import Vaem
-from drivers.pvGen.drvVaem.pvInterface import pvControl
-from drivers.pvGen.drvVaem.vaemHelper import *
+from driver.pvInterface import pvControl
+from driver.vaemHelper import *
 
 readParam = {
-    'address' : 0,
-    'length' : 0x07,
+    'address': 0,
+    'length': 0x07,
 }
 
 writeParam = {
-    'address' : 0,
-    'length' : 0x07,
+    'address': 0,
+    'length': 0x07,
 }
 
+
+# Construct the frame (message) to be sent to the VAEM
 def constructFrame(data):
     frame = []
-    tmp = struct.pack('>BBHBBQ', data['access'], data['dataType'], data['paramIndex'], data['paramSubIndex'], data['errorRet'], data['transferValue'])
-    for i in range(0, len(tmp)-1, 2):
-    	frame.append((tmp[i] << 8) + tmp[i+1])
+    tmp = struct.pack('>BBHBBQ', data['access'], data['dataType'], data['paramIndex'], data['paramSubIndex'],
+                      data['errorRet'], data['transferValue'])
+    for i in range(0, len(tmp) - 1, 2):
+        frame.append((tmp[i] << 8) + tmp[i + 1])
     return frame
 
+
+# Deconstruct the frame (message) received from the VAEM into info
 def deconstructFrame(frame):
     data = {}
     if frame is not None:
@@ -42,34 +45,42 @@ def deconstructFrame(frame):
         data['errorRet'] = frame[2] & 0x00ff
         data['transferValue'] = 0
         for i in range(4):
-             data['transferValue'] += (frame[len(frame)-1-i] << (i*16))
+            data['transferValue'] += (frame[len(frame) - 1 - i] << (i * 16))
 
     return data
 
 
+# VAEM (8-valve controller) class
 class vaemDriver(pvControl):
-    def __init__(self, vaemConfig: Vaem, logger: logging):
-        self._config = vaemConfig
+    def __init__(self, ip: str, port: int, modbusSlave: int, logger: logging):
+        self.ip = ip
+        self.port = port
+        self.slave_id = modbusSlave
         self._log = logger
-        
-        self.client = TcpClient(host=self._config.ip, port=self._config.port)
 
+        # initialize client
+        self.client = TcpClient(host=self.ip, port=self.port)
+
+        # attempt to connect five times
         for _ in range(5):
-
             if self.client.connect():
+                # connected
                 break
             else:
-                self._log.warn(f'Failed to connect VAEM. Reconnecting attempt: {_}')
+                # attempt to connect again
+                self._log.warning(f'Failed to connect VAEM. Reconnecting attempt: {_}')
             if _ == 4:
-                self._log.error(f'Could not connect to VAEM: {self._config}')
-                raise ConnectionError(f'Could not connect to VAEM: {self._config}')
+                # failed to connect
+                self._log.error(f'Could not connect to VAEM: {self.ip}')
+                raise ConnectionError(f'Could not connect to VAEM: {self.ip}')
 
-        self._log.info(f'Connected to VAEM : {self._config}')
+        self._log.info(f'Connected to VAEM : {self.ip}')
 
+    # initialize the VAEM
     def init(self):
         data = {}
         frame = []
-        #set operating mode
+        # set operating mode
         data['access'] = VaemAccess.Write.value
         data['dataType'] = VaemDataType.UINT8.value
         data['paramIndex'] = VaemIndex.OperatingMode.value
@@ -79,7 +90,7 @@ class vaemDriver(pvControl):
         frame = constructFrame(data)
         self.transfer(frame)
 
-        #clear errors
+        # clear errors
         data['access'] = VaemAccess.Write.value
         data['dataType'] = VaemDataType.UINT16.value
         data['paramIndex'] = VaemIndex.ControlWord.value
@@ -87,32 +98,16 @@ class vaemDriver(pvControl):
         frame = constructFrame(data)
         self.transfer(frame)
 
+    # disconnect from the VAEM
+    def disconnect(self):
+        # close connection
+        self.client.close()
 
-    def configureVaem(self):
-        """
-        Configure all the parameters for all valves with some default values
-        """
-        data = {}
-        frame = []
-        paramIndex = [0x04, 0x05, 0x06, 0x07, 0x08, 0x16, 0x2e]
-
-        try:
-            for i in VaemIndex:
-                if i.value in paramIndex:
-                    for v in vaemValveIndex.values():
-                        data = getValveSetting(i, v)
-                        frame = constructFrame(data)
-                        self.transfer(frame)
-        except Exception as e:
-            print(f'Unable to configure {data}: {e}')
-
-        self.saveSettings()
-
-
+    # save the VAEM's current settings to memory
     def saveSettings(self):
         data = {}
         frame = []
-        #save settings
+        # save settings
         data['access'] = VaemAccess.Write.value
         data['dataType'] = VaemDataType.UINT32.value
         data['paramIndex'] = VaemIndex.SaveParameters.value
@@ -122,66 +117,84 @@ class vaemDriver(pvControl):
         frame = constructFrame(data)
         self.transfer(frame)
 
-    #read write oppeartion is constant and custom modbus is implemented on top
+    # read write operation is constant and custom modbus is implemented on top
     def transfer(self, writeData):
         data = 0
         try:
-            data = self.client.readwrite_registers(read_address=readParam['address'],read_count=readParam['length'],write_address=writeParam['address'], write_registers=writeData, unit=self._config.slave_id)
+            data = self.client.readwrite_registers(read_address=readParam['address'], read_count=readParam['length'],
+                                                   write_address=writeParam['address'], write_registers=writeData,
+                                                   unit=self.slave_id)
             return data.registers
         except Exception as e:
-            self._log.error(f'Something went wrong with read opperation VAEM : {e}')
+            self._log.error(f'Something went wrong with read operation VAEM : {e}')
 
-    async def configureValves(self, valve_id: int, openning_time: int):
-        """Configure the valves with pre selected parameters"""
-        data = {}
-        try:
-            if (openning_time in range(0, 2000)) and (valve_id in range(0, 8)):
+    # select valves by ID
+    def selectValve(self, valve_id: int):
+        if valve_id not in range(1, 9):
+            raise ValueError(f"Valve ID must be in range 1-8")
+        selValves = self.readValves()
 
-                data = getValveSetting(VaemIndex.ResponseTime, valve_id, **{"ResponseTime" : openning_time})
-                frame = constructFrame(data)
-                self.transfer(frame)
-                print('configured')
-                data = getValveSetting(VaemIndex.SelectValve, vaemValveIndex[valve_id], **{})
-                frame = constructFrame(data)
-                self.transfer(frame)
-                print('end')
-            else:
-                self._log.error(f'openning time must be in range 0-2000 and valve_id -> 0-8')
-                raise ValueError
-        except Exception as e:
-            self._log.error(f"Wrong values provided {e}")
-            raise ValueError
+        selValves = selValves | vaemValveIndex[valve_id]
+        data = getValveSetting(VaemIndex.SelectValve, selValves, 0)
+        frame = constructFrame(data)
+        self.transfer(frame)
 
-    async def openValve(self):
+    # deselect valves by ID
+    def deselectValve(self, valve_id: int):
+        if valve_id not in range(1, 9):
+            raise ValueError(f"Valve ID must be in range 1-8")
+        selValves = self.readValves()
+
+        # check if the valve is currently selected
+        if selValves & vaemValveIndex[valve_id] > 0:
+            selValves = selValves - vaemValveIndex[valve_id]
+            data = getValveSetting(VaemIndex.SelectValve, selValves, 0)
+            frame = constructFrame(data)
+            self.transfer(frame)
+
+    # set the opening (actuation) time of the valve by ID
+    def setOpeningTime(self, valve_id: int, opening_time: int):
+        if valve_id not in range(1, 9):
+            raise ValueError(f"Valve ID must be in range 1-8")
+        if opening_time not in range(1, 2001):
+            raise ValueError(f"Opening time must be in range 1-2000")
+        if self.readValves() & vaemValveIndex[valve_id] == 0:
+            raise ValueError(f"Valve " + str(valve_id) + " is not selected")
+
+        data = getValveSetting(VaemIndex.ResponseTime, valve_id-1, opening_time)
+        frame = constructFrame(data)
+        self.transfer(frame)
+
+    # open all selected valves
+    def openValve(self):
         """
         Start all valves that are selected
         """
         data = {}
-        #save settings
+        # save settings
         data['access'] = VaemAccess.Write.value
         data['dataType'] = VaemDataType.UINT16.value
         data['paramIndex'] = VaemIndex.ControlWord.value
         data['paramSubIndex'] = 0
         data['errorRet'] = 0
         data['transferValue'] = VaemControlWords.StartValves.value
-        frame = constructFrame(data)        
+        frame = constructFrame(data)
         self.transfer(frame)
 
-        #reset the control word
+        # reset the control word
         data['access'] = VaemAccess.Write.value
         data['dataType'] = VaemDataType.UINT16.value
         data['paramIndex'] = VaemIndex.ControlWord.value
         data['paramSubIndex'] = 0
         data['errorRet'] = 0
         data['transferValue'] = 0
-        frame = constructFrame(data)        
+        frame = constructFrame(data)
         self.transfer(frame)
 
-
-
+    # close all selected valves
     def closeValve(self):
         data = {}
-        #save settings
+        # save settings
         data['access'] = VaemAccess.Write.value
         data['dataType'] = VaemDataType.UINT16.value
         data['paramIndex'] = VaemIndex.ControlWord.value
@@ -192,6 +205,7 @@ class vaemDriver(pvControl):
         frame = constructFrame(data)
         self.transfer(frame)
 
+    # read the current status word
     def readStatus(self):
         """
         Read the status of the VAEM
@@ -200,7 +214,7 @@ class vaemDriver(pvControl):
         -> error: 1 if error in valves is present
         """
         data = {}
-        #save settings
+        # save settings
         data['access'] = VaemAccess.Read.value
         data['dataType'] = VaemDataType.UINT16.value
         data['paramIndex'] = VaemIndex.StatusWord.value
@@ -215,11 +229,38 @@ class vaemDriver(pvControl):
 
         return getStatus(tmp['transferValue'])
 
-    async def clearError(self):
+    # read which valves are currently selected
+    def readValves(self):
+        out = {}
+        out['access'] = VaemAccess.Read.value
+        out['dataType'] = VaemDataType.UINT8.value
+        out['paramIndex'] = VaemIndex.SelectValve.value
+        out['paramSubIndex'] = 0
+        out['errorRet'] = 0
+        out['transferValue'] = 0
+        frame = constructFrame(out)
+        return self.transfer(frame)[6]
+
+    # read the opening time of a valve by ID
+    def readOpeningTime(self, valve_id: int):
+        out = {}
+        out['access'] = VaemAccess.Read.value
+        out['dataType'] = VaemDataType.UINT32.value
+        out['paramIndex'] = VaemIndex.ResponseTime.value
+        out['paramSubIndex'] = valve_id - 1
+        out['errorRet'] = 0
+        out['transferValue'] = 0
+        frame = constructFrame(out)
+        data = self.transfer(frame)
+        print(data)
+        return data[6]
+
+    # clear the error bit in the VAEM
+    def clearError(self):
         """
-        If any error occurs in valve opening, must be cleared with this opperation.
+        If any error occurs in valve opening, must be cleared with this operation.
         """
-        data  = {}
+        data = {}
         data['access'] = VaemAccess.Write.value
         data['dataType'] = VaemDataType.UINT16.value
         data['paramIndex'] = VaemIndex.ControlWord.value

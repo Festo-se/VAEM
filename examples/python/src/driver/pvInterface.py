@@ -15,7 +15,23 @@ class pvControl(ABC):
         pass
 
     @abstractmethod
-    def configureValves(self, valveOpeningTimes: dict):
+    def saveSettings(self):
+        pass
+
+    @abstractmethod
+    def readStatus(self):
+        pass
+
+    @abstractmethod
+    def selectValve(self, valve_id: int):
+        pass
+
+    @abstractmethod
+    def deselectValve(self, valve_id: int):
+        pass
+
+    @abstractmethod
+    def setOpeningTime(self, valve_id: int, opening_time: int):
         pass
 
     @abstractmethod
@@ -24,4 +40,12 @@ class pvControl(ABC):
 
     @abstractmethod
     def closeValve(self):
+        pass
+
+    @abstractmethod
+    def clearError(self):
+        pass
+
+    @abstractmethod
+    def disconnect(self):
         pass

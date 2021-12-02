@@ -8,62 +8,43 @@
 
 package driver;
 import de.re.easymodbus.modbusclient.*;
-import java.util.Arrays;
+import java.io.IOException;
 
 
+// VAEM (8-valve controller) class
 public class VaemDriver implements IVaemDriver {
 
     private final ModbusClient modbusClient;
+    private final int[] VaemValveIndex = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 255};
 
+    // VAEM constructor
     public VaemDriver(String host, int port) {
         this.modbusClient = new ModbusClient(host, port);
-        //this.modbusClient.setConnectionTimeout(5000);
         this.modbusClient.setUnitIdentifier((byte)0);
 
-        //for (int i = 0; i < 3; i++) {
         try {
-          this.modbusClient.Connect();
-              //System.out.println("Attempt: " + (i + 1));
+            this.modbusClient.Connect();
         } catch (Exception e) {
-          System.out.println("Could not connect to VAEM: " + e);
+            System.out.println("Could not connect to VAEM: " + e);
         }
-        //}
     }
 
+    // initialize the VAEM
     public void init() {
         // set to operating mode 1
         transfer(VaemAccess.Write.val,
                 VaemDataType.UINT8.val, VaemIndex.OperatingMode.val, 0, VaemOperatingModes.OpMode1.val);
-        // read the current operating mode
-        System.out.println(Arrays.toString(transfer(VaemAccess.Read.val,
-                VaemDataType.UINT8.val, VaemIndex.OperatingMode.val, 0, 0)));
-        // select valve 1
-        //System.out.println(Arrays.toString(transfer(VaemAccess.Write.val,
-        //        VaemDataType.UINT8.val, VaemIndex.SelectValve.val, 0, VaemValveIndex.Valve1.val)));
-
-        System.out.println("VAEM Initialized");
+        // clear errors
+        transfer(VaemAccess.Write.val,
+                VaemDataType.UINT16.val, VaemIndex.ControlWord.val, 0, VaemControlWords.ResetErrors.val);
     }
 
-    public void configureVaem() {
-        int[] paramIndex = {0x04, 0x05, 0x06, 0x07, 0x08, 0x16, 0x2e};
-        int[] settingsDataType = {2, 3, 3, 2, 2, 3, 3};
-        int[] settingsValue = {24000, 500, 0, 125, 300, 100, 100};
-        int i = 0;
-        try {
-            for (VaemValveIndex valve : VaemValveIndex.values()) {
-                for (int pIndex : paramIndex) {
-                    transfer(VaemAccess.Write.val,
-                            settingsDataType[i], pIndex, valve.val, settingsValue[i]);
-                    i++;
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            System.out.println("Error configuring VAEM");
-        }
+    // disconnect from the VAEM
+    public void disconnect() throws IOException {
+        this.modbusClient.Disconnect();
     }
 
+    // construct a modbus frame and send it to the device
     public int[] transfer(int access, int dataType, int index, int subIndex, int transferVal) {
         int[] ret = new int[7], writeData = new int[7];
         writeData[0] = (access << 8) + dataType;
@@ -84,6 +65,88 @@ public class VaemDriver implements IVaemDriver {
         return ret;
     }
 
+    // save the current device settings to memory
+    public void saveSettings() {
+        transfer(VaemAccess.Write.val,
+                VaemDataType.UINT32.val, VaemIndex.SaveParameters.val, 0, 99999);
+    }
+
+    // select the given valve
+    public void selectValve(int valve_id) {
+        if (valve_id < 1 || valve_id > 8) {
+            throw new IllegalArgumentException("Valve ID must in range 1-8");
+        }
+        int selValves = readValves();
+        selValves = selValves | VaemValveIndex[valve_id-1];
+        transfer(VaemAccess.Write.val,
+                VaemDataType.UINT8.val, VaemIndex.SelectValve.val, 0, selValves);
+    }
+
+    // deselect the given valve
+    public void deselectValve(int valve_id) {
+        if (valve_id < 1 || valve_id > 8) {
+            throw new IllegalArgumentException("Valve ID must be in range 1-8");
+        }
+        int selValves = readValves();
+        if ((selValves & VaemValveIndex[valve_id-1]) > 0) {
+            selValves = selValves - VaemValveIndex[valve_id-1];
+            transfer(VaemAccess.Write.val,
+                    VaemDataType.UINT8.val, VaemIndex.SelectValve.val, 0, selValves);
+        }
+    }
+
+    // set the opening time of the given valve
+    public void setOpeningTime(int valve_id, int opening_time) {
+        if (valve_id < 1 || valve_id > 8) {
+            throw new IllegalArgumentException("Valve ID must be in range 1-8");
+        }
+        if (opening_time < 1 || opening_time > 2000) {
+            throw new IllegalArgumentException("Opening time must be in range 1-2000");
+        }
+        if ((readValves() & VaemValveIndex[valve_id-1]) == 0) {
+            throw new IllegalArgumentException("Valve " + valve_id + " is not selected");
+        }
+        transfer(VaemAccess.Write.val,
+                VaemDataType.UINT32.val, VaemIndex.ResponseTime.val, valve_id-1, opening_time);
+    }
+
+    // open all selected valves
+    public void openValve() {
+        transfer(VaemAccess.Write.val,
+                VaemDataType.UINT16.val, VaemIndex.ControlWord.val, 0, VaemControlWords.StartValves.val);
+    }
+
+    // close all selected valves
+    public void closeValve() {
+        transfer(VaemAccess.Write.val,
+                VaemDataType.UINT16.val, VaemIndex.ControlWord.val, 0, VaemControlWords.StopValves.val);
+    }
+
+    // read the status of the VAEM
+    public int[] readStatus() {
+        return getStatus(deconstructFrame(transfer(VaemAccess.Read.val,
+                VaemDataType.UINT16.val, VaemIndex.StatusWord.val, 0, 0))[5]);
+    }
+
+    // clear the error bit
+    public void clearError() {
+        transfer(VaemAccess.Write.val,
+                VaemDataType.UINT16.val, VaemIndex.ControlWord.val, 0, VaemControlWords.ResetErrors.val);
+    }
+
+    // read which valves are currently selected
+    public int readValves() {
+        return (transfer(VaemAccess.Read.val,
+                VaemDataType.UINT8.val, VaemIndex.SelectValve.val, 0, 0))[6];
+    }
+
+    // read the opening time of a valve by ID
+    public int readOpeningTime(int valve_id) {
+        return (transfer(VaemAccess.Read.val,
+                VaemDataType.UINT32.val, VaemIndex.ResponseTime.val, valve_id - 1, 0))[6];
+    }
+
+    // deconstruct a Modbus frame
     public int[] deconstructFrame(int[] frame) {
         int[] data = new int[6];
         if (frame != null) {
@@ -103,6 +166,7 @@ public class VaemDriver implements IVaemDriver {
         return data;
     }
 
+    // return the formatted status word
     public int[] getStatus(int statusWord) {
         int[] status = new int[12];
         status[0] = statusWord & 0x01;
@@ -132,72 +196,79 @@ public class VaemDriver implements IVaemDriver {
         System.out.println("Valve 6: " + ((statusWord & 0x2000) >> 13));
         System.out.println("Valve 7: " + ((statusWord & 0x4000) >> 14));
         System.out.println("Valve 8: " + ((statusWord & 0x8000) >> 15));
-        if (((statusWord & 0x08) >> 3) == 1) {
-            clearError();
+
+        return status;
+    }
+
+}
+
+
+    /*
+    public void configureVaem() {
+        byte[] paramIndex = {0x04, 0x05, 0x06, 0x07, 0x08, 0x16, 0x2e};
+
+        try {
+            for (VaemIndex i : VaemIndex.values()) {
+                if (Arrays.asList(paramIndex).contains(i.val)){
+                    for (VaemValveIndex v : VaemValveIndex.values()) {
+                        // data = getValveSetting(i, v);
+                        // frame = constructFrame(data);
+                        // transfer(frame);
+                    }
+                }
+            }
+        }
+        catch (Exception e) {
+            System.out.println("Unable to configure: " + e);
         }
 
-        return status;
+        saveSettings();
+    }
+    */
+
+
+
+/*
+class VaemSerialPort implements SerialPortWrapper {
+
+    @Override
+    public void close() throws Exception {
+
     }
 
-    public void openValve() {
-        transfer(VaemAccess.Write.val,
-                VaemDataType.UINT16.val, VaemIndex.ControlWord.val, 0, VaemControlWords.StartValves.val);
-        /*
-        System.out.println(Arrays.toString(transfer(VaemAccess.Write.val,
-                VaemDataType.UINT16.val, VaemIndex.ControlWord.val, 0, VaemControlWords.StartValves.val)));
+    @Override
+    public void open() throws Exception {
 
-         */
     }
 
-    public void closeValve() {
-        transfer(VaemAccess.Write.val,
-                VaemDataType.UINT16.val, VaemIndex.ControlWord.val, 0, VaemControlWords.StopValves.val);
-        /*
-        System.out.println(Arrays.toString(transfer(VaemAccess.Write.val,
-                VaemDataType.UINT16.val, VaemIndex.ControlWord.val, 0, VaemControlWords.StopValves.val)));
-
-        */
+    @Override
+    public InputStream getInputStream() {
+        return null;
     }
 
-    public void configureValves(int[] openingTimes) {
-       VaemValveIndex[] valves = VaemValveIndex.values();
-       int selValves = 0;
-       if (openingTimes.length > 8) {
-           throw new IllegalArgumentException("Must configure 1-8 valves");
-       }
-       for(int t : openingTimes) {
-           if (t < 0 || t > 2000) {
-               throw new IllegalArgumentException("Opening times must be between 0-2000");
-           }
-       }
-       try {
-           for (int i = 0; i < openingTimes.length; i++) {
-               if (openingTimes[i] != 0) {
-                   selValves = selValves | valves[i].val;
-               }
-               transfer(VaemAccess.Write.val,
-                       VaemDataType.UINT32.val, VaemIndex.ResponseTime.val, valves[i].val, openingTimes[i]);
-           }
-           transfer(VaemAccess.Write.val,
-                   VaemDataType.UINT8.val, VaemIndex.SelectValve.val, 0, selValves);
-       } catch (Exception e) {
-            System.out.println("Error setting up valves");
-       }
+    @Override
+    public OutputStream getOutputStream() {
+        return null;
     }
 
-    public int[] readStatus() {
-        int[] status = getStatus(deconstructFrame(transfer(VaemAccess.Read.val,
-                VaemDataType.UINT16.val, VaemIndex.StatusWord.val, 0, 0))[5]);
-        
-        return status;
+    @Override
+    public int getBaudRate() {
+        return 0;
     }
 
-    public void clearError() {
-        transfer(VaemAccess.Write.val,
-                VaemDataType.UINT16.val, VaemIndex.ControlWord.val, 0, VaemControlWords.ResetErrors.val);
+    @Override
+    public int getDataBits() {
+        return 0;
     }
 
-    public void saveSettings() {
-        transfer(VaemAccess.Write.val, VaemDataType.UINT32.val, VaemIndex.SaveParameters.val, 0, 99999);
+    @Override
+    public int getStopBits() {
+        return 0;
+    }
+
+    @Override
+    public int getParity() {
+        return 0;
     }
 }
+*/

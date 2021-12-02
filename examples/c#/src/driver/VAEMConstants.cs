@@ -1,4 +1,4 @@
-﻿namespace driver
+﻿namespace VaemCSharpDriver.driver
 {
     public class VAEMConstants
     {

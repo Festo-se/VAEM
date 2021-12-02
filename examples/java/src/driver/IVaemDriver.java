@@ -1,3 +1,7 @@
+package driver;
+
+import java.io.IOException;
+
 /* Author:     Raines, Jared
  * Copyright:  Copyright 2021, Festo Life Tech
  * Version:    0.0.1
@@ -5,16 +9,16 @@
  * Email:      raines.j@northeastern.edu
  * Status:     Development
  */
-
-package driver;
-
 public interface IVaemDriver {
+    void saveSettings();
+    int[] readStatus();
+    void selectValve(int valve_id);
+    void deselectValve(int valve_id);
+    void setOpeningTime(int valve_id, int opening_time);
     void openValve();
     void closeValve();
-    void configureValves(int[] openingTimes);
-    int[] readStatus();
     void clearError();
-    void saveSettings();
+    void disconnect() throws IOException;
 
 
     enum VaemAccess {
@@ -62,23 +66,23 @@ public interface IVaemDriver {
         }
     }
 
-    enum VaemValveIndex {
-        Valve1(0x01),
-        Valve2(0x02),
-        Valve3(0x04),
-        Valve4(0x08),
-        Valve5(0x10),
-        Valve6(0x20),
-        Valve7(0x40),
-        Valve8(0x80),
-        AllValves(255);
-
-        public final int val;
-
-        private VaemValveIndex(int val) {
-            this.val = val;
-        }
-    }
+//    enum VaemValveIndex {
+//        Valve1(0x01),
+//        Valve2(0x02),
+//        Valve3(0x04),
+//        Valve4(0x08),
+//        Valve5(0x10),
+//        Valve6(0x20),
+//        Valve7(0x40),
+//        Valve8(0x80),
+//        AllValves(255);
+//
+//        public final int val;
+//
+//        private VaemValveIndex(int val) {
+//            this.val = val;
+//        }
+//    }
 
     enum VaemControlWords {
         StartValves(0x01),

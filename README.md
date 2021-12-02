@@ -60,20 +60,33 @@
 * <img src="https://camo.githubusercontent.com/8d56e87edf99e89bfc457cd62462e0b7aae19e6b197b1df5c542d474d8d76f81/68747470733a2f2f646576656c6f7065722e6665646f726170726f6a6563742e6f72672f7374617469632f6c6f676f2f6373686172702e706e67" alt="alt text" width="30" height="30">[  .NET/C#](/examples/c%23)
 
 ## Methods
-* **:toolbox: configureValves** -
-  * ```Purpose:```      Configures the valve opening times of all eight channels, with 0 turning the channel off
-  * ```Value Ranges:``` openingTimes >= 0
-  * ```Arguments:```    int[8] openingTimes (ms)
-  * ```Returns:```      void
-
 * **💧: openValve** -
   * ```Purpose:```      Opens the valves connected to the initialized channels
   * ```Value Ranges:``` NONE
   * ```Arguments:```    void
   * ```Returns:```      void
+
 * **🚪: closeValve** -
   * ```Purpose:```      Closes the valves connected to the initialized channels
   * ```Value Ranges:``` NONE
+  * ```Arguments:```    void
+  * ```Returns:```      void
+
+* **:o: selectValve** -
+  * ```Purpose:```      Selects the given valve for use
+  * ```Value Ranges:``` valve_id = 1-8
+  * ```Arguments:```    int valve_id
+  * ```Returns:```      void
+
+* **:x: deselectValve** -
+  * ```Purpose:```      Deselects the given valve
+  * ```Value Ranges:``` valve_id = 1-8
+  * ```Arguments:```    int valve_id
+  * ```Returns:```      void
+
+* **:clock1: setOpeningTime** -
+  * ```Purpose:```      Sets the opening time of the given selected valve
+  * ```Value Ranges:``` valve_id = 1-8, openingTime = 1-2000 ms
   * ```Arguments:```    void
   * ```Returns:```      void
   
@@ -81,7 +94,7 @@
   * ```Purpose:```      Read the VAEM status, error code, readiness, operating mode, and eight valve status bits (in order)
   * ```Value Ranges:``` NONE
   * ```Arguments:```    void
-  * ```Returns:```      void
+  * ```Returns:```      int[]
 
 * **:soap: clearError** -
   * ```Purpose:```      Clears (resets) the error bit on the VAEM

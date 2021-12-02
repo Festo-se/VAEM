@@ -1,29 +1,28 @@
 from time import sleep
 from driver.VaemDriver import vaemDriver
+import logging
 
-
-defValveData1 = {x: {"opening_time": 0} for x in range(1, 9)}
-defValveData2 = {1: {"opening_time": 500}}
 
 if __name__ == "__main__":
-    vaemConfig = {
-        'ip': '192.168.0.214',
-        'port': 502,
-        'slave_id': 0
-    }
+    ip = '192.168.0.220'
+    port = 502
+    slave_id = 0
 
     try:
-        vaem = vaemDriver(**vaemConfig)
+        vaem = vaemDriver(ip, port, slave_id, logging)
     except Exception as e:
         print(e)
 
     vaem.init()
-    vaem.configureValves(defValveData2)
+    vaem.selectValve(1)
+    vaem.setOpeningTime(1, 500)
     while 1:
         vaem.openValve()
-        sleep(1)
+        sleep(0.2)
         status = vaem.readStatus()
         if status["error"] == 1:
             vaem.clearError()
-        sleep(1)
+        status = vaem.readStatus()
+        print(status)
         vaem.closeValve()
+        sleep(1)
