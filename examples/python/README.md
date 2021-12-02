@@ -17,11 +17,10 @@
 
 ## Example Code
 ### 🚀 Start
-* ```vaemConfig``` holds the arguments for the new ```VAEM``` object
-* Creates a new ```VAEM``` driver object (```ip```, ```port```, ```slave_id```) and attempts to connect
-* Initializes the device and configures the valves using the given array of opening times
+* Creates a new ```VAEM``` driver object (```ip```, ```port```, ```slave_id```, ```logger```) and attempts to connect
+* Initializes the device. selects valve 1, and sets the opening time to 500 ms 
 
- ![image](https://user-images.githubusercontent.com/71296226/135302227-2082d959-7de2-4e2c-a6f4-445fbf3f5735.png)
+ ![image](https://user-images.githubusercontent.com/71296226/144479345-8e52da72-0d90-4ca2-b377-d864d849079f.png)
 
 ### ♾️ Loop
 * While loop that repeatedly opens and closes valve 1
@@ -29,7 +28,7 @@
 * Waits one second between opening and closing, vice versa
 * Checks if there is an error and clears it if true
 
-![image](https://user-images.githubusercontent.com/71296226/135303149-dec628d6-3553-4b4d-8874-b1a7738d20ff.png)
+![image](https://user-images.githubusercontent.com/71296226/144479368-e41411fd-e076-4b01-ad46-8c29443fbbc8.png)
 
 ### 🚧 Constructor
 * Sets the ```TcpClient``` with the given host ip and port from ```config```
@@ -47,12 +46,14 @@
 ![image](https://user-images.githubusercontent.com/71296226/135303699-c066e66c-01a1-43dc-a231-89893b727951.png)
 
 ## 🧑‍💻Interface
-- [x] configureValves(valveOpeningTimes: dict);
-- [X] openValve(self);
-- [x] closeValve(self);
-- [ ] readStatus();
-- [ ] clearError();
-- [ ] saveSettings();
+- [x] selectValve(int valve_id)
+- [x] deselectValve(int valve_id)
+- [x] setOpeningTime(int valve_id, int opening_time)
+- [X] openValve()
+- [x] closeValve(self)
+- [x] readStatus()
+- [x] clearError()
+- [x] saveSettings()
 
 ## Author
 |Name          | Email                     | GitHub         |
