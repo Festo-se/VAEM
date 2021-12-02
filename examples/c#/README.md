@@ -18,16 +18,18 @@
 ### 🚀 Start
 * Creates a new ```Vaem``` driver object (```host IP```, ```tcp/ip port```)
 * Initializes and connects to the ```VAEM```
-* Configures the 8 valve channels and saves these device settings
+* Selects valve 1
+* Configures valve 1 with an opening time of 500 ms
 
-![image]()
+![image](https://user-images.githubusercontent.com/71296226/144477466-56f7817d-a109-435c-91ac-a1c43c692656.png)
 
 ### ♾️ Loop
-* While loop that repeatedly opens and closes all valves
-* Reads the status of the ```VAEM``` after opening the valves
-* Waits one second between opening and closing, vice versa
+* While loop that repeatedly opens and closes all valves five times
+* Closes all selected valves and waits for 1 second
+* Reads the status of the VAEM before and after clearing all errors
+* Open all selected valves and waits for 1 second
 
-![image](https://user-images.githubusercontent.com/71296226/135522117-61c7135a-435c-4d40-b5b9-21f2e25581b8.png)
+![image](https://user-images.githubusercontent.com/71296226/144477319-a804d5d1-721c-432b-9eeb-e12e0ea1b7b7.png)
 
 ### 🚧 Constructor
 * Creates a new ```Modbus Client``` with the given ```host IP address``` and ```port number```
