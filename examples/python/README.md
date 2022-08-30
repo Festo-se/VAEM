@@ -10,6 +10,22 @@
 * <img src="http://domoticx.com/wp-content/uploads/2017/09/modbus-logo-300x96.png" alt="alt text" width="60" height="30">[ PyModbus v2.5.2](http://riptideio.github.io/pymodbus/)
 * <img src="https://pythonhosted.org/pyserial/_static/pyserial.png" alt="alt text" width="60" height="30">[ PySerial v3.5](https://pythonhosted.org/pyserial/)
 
+## Instalation
+
+**The module uses setuptools in order to install and configure all packages.**
+
+1. (Optional) Create a virtual environment and activate it
+    * python -m venv env
+    * (windows) /env/Scripts/activate.bat
+2. Install everything using setup.py
+    * pip install -e .
+3. Use within virtual enviroment
+
+**If you choose not to use virtual enviroment, you might need to edit the import statements of the module!**
+
+    
+
+
 ## 📜 PGVA Arguments
 * ```string ip``` - host IP for tcp/ip (ex. 192.168.0.XXX)
 * ```int port``` - TCP port number for tcp/ip (ex. 502)
