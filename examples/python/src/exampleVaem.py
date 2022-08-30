@@ -1,29 +1,29 @@
 from time import sleep
+import logging
+import asyncio
+
 from driver.VaemDriver import vaemDriver
+from driver.dataTypes import VaemConfig
 
-
-defValveData1 = {x: {"opening_time": 0} for x in range(1, 9)}
-defValveData2 = {1: {"opening_time": 500}}
 
 if __name__ == "__main__":
-    vaemConfig = {
-        'ip': '192.168.0.214',
-        'port': 502,
-        'slave_id': 0
-    }
+    vaemConfig = VaemConfig('192.168.8.118', 502, 0)
 
     try:
-        vaem = vaemDriver(**vaemConfig)
+        vaem = vaemDriver(vaemConfig, logger=logging)
     except Exception as e:
         print(e)
+    async def func():
+        vaem.init()
+        print(vaem.read_status())
+        await vaem.select_valve(3)
+        print(vaem.read_status())
+        await vaem.deselect_valve(3)
+        print(vaem.read_status())
+        await vaem.select_valve(7)
+        print(vaem.read_status())
+        await vaem.deselect_valve(7)
+        print(vaem.read_status())
 
-    vaem.init()
-    vaem.configureValves(defValveData2)
-    while 1:
-        vaem.openValve()
-        sleep(1)
-        status = vaem.readStatus()
-        if status["error"] == 1:
-            vaem.clearError()
-        sleep(1)
-        vaem.closeValve()
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(func())
