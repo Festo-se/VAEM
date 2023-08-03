@@ -71,7 +71,7 @@ namespace driver
             int[] writeData = new int[7];
             writeData[0] = (access << 8) + dataType;
             writeData[1] = index;
-            writeData[2] = subindex;
+            writeData[2] = subindex << 8;
             writeData[3] = 0;
             writeData[4] = 0;
             writeData[5] = (transferVal >> 16) & 0xFFFF;
